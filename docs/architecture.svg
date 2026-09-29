@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#f8fafc"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#0f172a">Campus to Corporate — Architecture</text>
+  <text x="60" y="105" font-family="Arial, sans-serif" font-size="18" fill="#475569">Focused hackathon architecture: simple, explainable and centered on the employability journey.</text>
+
+  <rect x="70" y="165" width="230" height="120" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="185" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Student / Admin</text>
+  <text x="185" y="238" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Profile • Resume • Interview</text>
+  <text x="185" y="263" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Opportunities • Analytics</text>
+
+  <rect x="385" y="145" width="260" height="160" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="515" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f172a">React + Vite</text>
+  <text x="515" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Dashboard and feature UI</text>
+  <text x="515" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Session-aware frontend</text>
+  <text x="515" y="276" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">AI / resume / jobs views</text>
+
+  <rect x="730" y="125" width="380" height="200" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="920" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#0f172a">Express REST API</text>
+  <text x="920" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Authentication + role checks</text>
+  <text x="920" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">AI endpoints + rate limiting</text>
+  <text x="920" y="256" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Resume parsing + opportunities</text>
+  <text x="920" y="284" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Persistent JSON repository</text>
+
+  <line x1="300" y1="225" x2="385" y2="225" stroke="#475569" stroke-width="3"/>
+  <polygon points="385,225 370,216 370,234" fill="#475569"/>
+  <line x1="645" y1="225" x2="730" y2="225" stroke="#475569" stroke-width="3"/>
+  <polygon points="730,225 715,216 715,234" fill="#475569"/>
+
+  <rect x="80" y="390" width="240" height="120" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="200" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Gemini AI</text>
+  <text x="200" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Profile analysis</text>
+  <text x="200" y="488" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Resume review</text>
+
+  <rect x="370" y="390" width="240" height="120" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="490" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">PDF Parser</text>
+  <text x="490" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">5 MB PDF limit</text>
+  <text x="490" y="488" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Text extraction</text>
+
+  <rect x="660" y="390" width="240" height="120" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="780" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">NCS Source</text>
+  <text x="780" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Official opportunity source</text>
+  <text x="780" y="488" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Freshness + source metadata</text>
+
+  <rect x="950" y="390" width="180" height="120" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="1040" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Repository</text>
+  <text x="1040" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Users</text>
+  <text x="1040" y="488" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">Profiles / resumes</text>
+
+  <line x1="920" y1="325" x2="200" y2="390" stroke="#64748b" stroke-width="2"/>
+  <line x1="920" y1="325" x2="490" y2="390" stroke="#64748b" stroke-width="2"/>
+  <line x1="920" y1="325" x2="780" y2="390" stroke="#64748b" stroke-width="2"/>
+  <line x1="920" y1="325" x2="1040" y2="390" stroke="#64748b" stroke-width="2"/>
+
+  <rect x="150" y="575" width="900" height="75" rx="18" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="600" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Core loop: Student → Assessment → Skill Gap → Action Plan → Preparation → Opportunity</text>
+</svg>
