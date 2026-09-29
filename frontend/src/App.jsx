@@ -12,7 +12,7 @@ import OnboardingSurveyModal from './components/OnboardingSurveyModal';
 import LoginModal from './components/LoginModal';
 import AdminDashboard from './components/AdminDashboard';
 import AuthPage from './components/AuthPage';
-import { getStoredSession,logoutSession,verifySession } from './services/auth';
+import { getStoredSession,logoutSession,verifySession,updateProfile } from './services/auth';
 import { analyzeStudentProfile } from './services/gemini';
 
 export default function App() {
@@ -30,10 +30,10 @@ export default function App() {
   useEffect(()=>{
     const restore=async()=>{
       const stored=getStoredSession();
-      if(!stored.token){setBooting(false);return;}
+      if(!stored.user){setBooting(false);return;}
       const result=await verifySession();
-      if(result.success&&result.user){setSession({isAuthenticated:true,user:result.user,token:stored.token});setStudentProfile(result.user);setActiveTab(result.user.role==='admin'?'admin-analytics':'dashboard');}
-      else logoutSession();
+      if(result.success&&result.user){setSession({isAuthenticated:true,user:result.user,token:null});setStudentProfile(result.user);setActiveTab(result.user.role==='admin'?'admin-analytics':'dashboard');}
+      else await logoutSession();
       setBooting(false);
     };
     restore();
@@ -57,9 +57,9 @@ Resume: ${profile.resumeText||''}`;
     setActiveTab(user.role==='admin'?'admin-analytics':'dashboard');
     if(user.role!=='admin'){setIsSurveyOpen(true);runAiAnalysis(user);}
   };
-  const handleLogout=()=>{logoutSession();setSession({isAuthenticated:false,user:null,token:null});setStudentProfile(null);setAiAnalysis(null);};
-  const updateProfile=(updated)=>{setStudentProfile(updated);setSession(s=>({...s,user:updated}));runAiAnalysis(updated);};
-  const handleSelectTargetRole=(role)=>updateProfile({...studentProfile,targetRole:role});
+  const handleLogout=async()=>{await logoutSession();setSession({isAuthenticated:false,user:null,token:null});setStudentProfile(null);setAiAnalysis(null);};
+  const saveProfile=async(updated)=>{const result=await updateProfile(updated);const profile=result.success?result.user:updated;setStudentProfile(profile);setSession(s=>({...s,user:profile}));runAiAnalysis(profile);};
+  const handleSelectTargetRole=(role)=>saveProfile({...studentProfile,targetRole:role});
   const isAdmin=studentProfile?.role==='admin';
 
   if(booting)return <div className="min-h-screen flex items-center justify-center bg-slate-100"><p className="text-slate-600">Loading your workspace…</p></div>;
@@ -80,8 +80,8 @@ Resume: ${profile.resumeText||''}`;
         </>}
       </main>
     </div>
-    <OnboardingSurveyModal isOpen={isSurveyOpen} onClose={()=>setIsSurveyOpen(false)} studentProfile={studentProfile} onCompleteSurvey={updateProfile}/>
-    <ProfileUploadModal isOpen={isProfileModalOpen} onClose={()=>setIsProfileModalOpen(false)} studentProfile={studentProfile} onSaveProfile={updateProfile}/>
+    <OnboardingSurveyModal isOpen={isSurveyOpen} onClose={()=>setIsSurveyOpen(false)} studentProfile={studentProfile} onCompleteSurvey={saveProfile}/>
+    <ProfileUploadModal isOpen={isProfileModalOpen} onClose={()=>setIsProfileModalOpen(false)} studentProfile={studentProfile} onSaveProfile={saveProfile}/>
     <LoginModal isOpen={isLoginModalOpen} onClose={()=>setIsLoginModalOpen(false)} onLoginSuccess={handleAuthSuccess}/>
   </div>;
 }
