@@ -1,210 +1,263 @@
-# MPOnline Project
+# 🎓 Campus to Corporate
 
-AI-powered career readiness and employability platform for students.
+### AI-powered employability platform that turns a student's current skills into a personalized path to employment.
 
-## Overview
+**Campus to Corporate (C2C)** helps students answer:
 
-MPOnline Project helps students assess skills, improve resumes, practice interviews, discover jobs and government opportunities, and receive AI-assisted career guidance.
+> **Where am I today? → What am I missing? → What should I do next?**
+
+It connects profile assessment, skill-gap discovery, resume improvement, interview preparation and verified career opportunities in one workflow.
+
+[![CI](https://github.com/Harshit-Sahu06/MpOnline_Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Harshit-Sahu06/MpOnline_Project/actions/workflows/ci.yml)
+
+## The problem
+
+Students often have scattered information about their skills, resumes, courses and job opportunities. Individual tools may solve one part of the problem, but the student still has to decide what to do next.
+
+C2C is designed around the complete employability journey:
+
+**Student profile → AI assessment → skill gaps → action plan → resume → interview → opportunity**
+
+## What the product does
+
+| Area | What C2C provides |
+|---|---|
+| Profile & assessment | Understands a student's goals, skills and experience |
+| Skill gaps | Identifies areas that need improvement |
+| Action planning | Turns gaps into practical next steps |
+| Resume | Parses PDF resumes and provides AI-assisted review |
+| Interview | Provides interview practice and feedback |
+| Opportunities | Displays opportunities with source/freshness metadata |
+| Admin view | Demonstrates learner, placement and skill-trend analytics |
+
+## Why this is more than a chatbot
+
+The AI is embedded inside a workflow rather than presented as a standalone chat screen.
+
+**Profile + resume → AI analysis → skill gaps → actions → preparation → opportunities**
+
+See AI_USAGE.md for exactly where AI is used and how fallback behavior works.
+
+## 3-minute demo
+
+The recommended judge flow is documented in docs/demo/demo-script.md:
+
+1. Open a student profile.
+2. Run AI profile analysis.
+3. Show skill gaps and recommended actions.
+4. Upload a resume PDF and review the extracted text.
+5. Run resume feedback.
+6. Practice an interview question.
+7. Show feedback.
+8. Open opportunities and point out source/freshness metadata.
+9. Close with the end-to-end employability loop.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  U[Student / Admin] --> F[React Frontend]
-  F --> A[Express REST API]
-  A --> AI[Gemini AI]
-  A --> D[(Application Data)]
-  F --> V[Career Dashboard]
-  V --> J[Jobs & Schemes]
-  V --> R[Resume & Interview]
-```
+    Student / Admin
+           |
+           v
+    React + Vite
+           |
+           v
+    Express REST API
+      |     |      |       |
+      v     v      v       v
+     Auth  Store  Gemini  PDF Parser
+                    |
+                    v
+              AI responses
 
-## Student Journey
+    Express API ---> National Career Service
+    Express API ---> React UI
 
-```mermaid
-flowchart TD
-  S[Sign in / Register] --> P[Profile & Onboarding]
-  P --> A[AI Profile Analysis]
-  A --> G[Skill Gap Dashboard]
-  G --> C[Recommended Courses]
-  G --> J[Job Matching]
-  P --> R[Resume Review]
-  R --> I[Mock Interview]
-  J --> O[Career Opportunities]
-  C --> O
-  I --> O
-```
+Detailed diagrams and security boundaries are in docs/architecture.md.
 
-## AI Employability Flow
+## AI and security
 
-```mermaid
-flowchart LR
-  X[Profile + Skills + Resume] --> E[AI Analysis]
-  E --> S[Skill Assessment]
-  E --> G[Skill Gaps]
-  E --> R[Recommendations]
-  R --> A[Action Plan]
-```
+- Google Gemini is called from the backend.
+- The Gemini API key is never sent to the browser.
+- Authentication uses JWT with an HttpOnly session cookie.
+- Bearer authentication remains available for API clients.
+- JWT issuer and audience are verified.
+- Authentication and AI endpoints are rate-limited.
+- Admin-only routes use role middleware.
+- Resume upload is restricted to PDF and 5 MB.
+- Runtime database files are ignored by Git.
+- Deterministic AI fallbacks are clearly documented.
 
-## Resume Optimization
+See AI_USAGE.md and LIMITATIONS.md.
 
-```mermaid
-flowchart TD
-  R[Upload / Enter Resume] --> P[Parse Profile]
-  P --> AI[AI Review]
-  AI --> F[Find Missing Skills]
-  AI --> W[Improve Wording]
-  F --> O[Personalized Suggestions]
-  W --> O
-```
+## Verified opportunities
 
-## Mock Interview
+The integrated verified source is the **National Career Service (NCS)** latest-updates page.
 
-```mermaid
-sequenceDiagram
-  participant U as Student
-  participant F as Frontend
-  participant A as API
-  participant AI as Gemini
-  U->>F: Start interview
-  F->>A: Submit profile/question context
-  A->>AI: Generate interview prompt
-  AI-->>A: Interview question
-  A-->>F: Question
-  U->>F: Submit answer
-  F->>A: Answer + context
-  A->>AI: Evaluate response
-  AI-->>A: Feedback + score
-  A-->>F: Improvement guidance
-```
+C2C exposes source/freshness information and returns an empty result with source-error metadata if the external source cannot be fetched. It does not invent live job listings.
 
-## Admin / Placement Analytics
+## Tech stack
 
-```mermaid
-flowchart TD
-  AD[Admin Dashboard] --> M[Monitor Learner Progress]
-  AD --> J[Review Opportunities]
-  AD --> S[Review Skill Trends]
-  M --> I[Identify Skill Gaps]
-  I --> P[Plan Training / Courses]
-```
+- **Frontend:** React 19, Vite, Tailwind CSS, Recharts, Lucide React
+- **Backend:** Node.js, Express, JWT, CORS, dotenv
+- **AI:** Google Gemini via @google/genai
+- **Resume processing:** pdf-parse
+- **Persistence:** JSON-backed repository for the hackathon prototype
+- **Quality:** GitHub Actions, Oxlint
 
-## Tech Stack
+## Project structure
 
-- Frontend: React, Vite, Tailwind CSS, Recharts, Lucide React
-- Backend: Node.js, Express, JWT, CORS, dotenv
-- AI: Google Gemini via `@google/genai`
-- Quality: GitHub Actions, Oxlint
+    .
+    ├── frontend/
+    │   ├── src/
+    │   │   ├── components/
+    │   │   ├── data/
+    │   │   ├── services/
+    │   │   ├── App.jsx
+    │   │   └── main.jsx
+    │   └── package.json
+    ├── backend/
+    │   ├── database/
+    │   ├── middleware/
+    │   ├── routes/
+    │   ├── services/
+    │   ├── server.js
+    │   └── package.json
+    ├── docs/
+    │   ├── architecture.md
+    │   ├── demo/
+    │   └── screenshots/
+    ├── .github/
+    │   └── workflows/ci.yml
+    ├── AI_USAGE.md
+    ├── LIMITATIONS.md
+    └── README.md
 
-## Project Structure
+## Local setup
 
-```text
-.
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── data/
-│   │   ├── services/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── package.json
-├── backend/
-│   ├── middleware/
-│   ├── routes/
-│   ├── server.js
-│   └── package.json
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   ├── pull_request_template.md
-│   └── workflows/ci.yml
-├── package.json
-└── README.md
-```
+### 1. Install dependencies
 
-## Local Setup
+    cd frontend
+    npm install
 
-```bash
-# install frontend dependencies
-cd frontend
-npm ci
+In another terminal:
 
-# in another terminal, install backend dependencies
-cd backend
-npm ci
+    cd backend
+    npm install
 
-# start backend
-npm start
+The repository currently uses npm install in CI because the backend lockfile must be regenerated after the current dependency set is finalized. See HACKATHON_READINESS.md.
 
-# start frontend
-cd ../frontend
-npm run dev
-```
+### 2. Configure the backend
 
-Copy `backend/.env.example` to `backend/.env` and configure the required environment variables before using external AI services.
+Copy backend/.env.example to backend/.env.
 
-## Demo Personas
+At minimum, configure a strong local JWT_SECRET. Add GEMINI_API_KEY when you want Gemini-backed responses.
 
-The application includes student/admin demo flows for local development. Do not use demo credentials in production.
+### 3. Start the backend
+
+    cd backend
+    npm start
+
+### 4. Start the frontend
+
+    cd frontend
+    npm run dev
+
+## Demo personas
+
+The application includes student/admin demo flows for local development. Demo credentials are intended only for local development and should never be reused in production.
 
 ## API
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET | `/api/health` | Health check |
-| GET | `/api/auth/personas` | Demo personas |
-| POST | `/api/auth/register` | Register user |
-| POST | `/api/auth/login` | Authenticate user |
-| GET | `/api/auth/verify` | Verify JWT |
-| POST | `/api/ai/analyze-profile` | AI profile analysis |
-| POST | `/api/ai/review-resume` | AI resume review |
-| GET | `/api/jobs` | Job opportunities |
-| GET | `/api/govt-schemes` | Government schemes |
+| GET | /api/health | Health check |
+| GET | /api/auth/personas | Demo personas |
+| POST | /api/auth/register | Register user |
+| POST | /api/auth/login | Authenticate user |
+| POST | /api/auth/logout | End session |
+| GET | /api/auth/verify | Verify session |
+| PATCH | /api/auth/profile | Update authenticated profile |
+| POST | /api/ai/analyze-profile | AI profile analysis |
+| POST | /api/ai/review-resume | AI resume review |
+| POST | /api/ai/parse-resume | Parse uploaded resume PDF |
+| GET | /api/jobs | Verified-source job opportunities |
+| GET | /api/govt-schemes | Government opportunity data |
+| GET | /api/sources | Opportunity source metadata |
 
-## Git Workflow
+## CI pipeline
 
-```mermaid
-flowchart LR
-  M[main] --> D[develop]
-  D --> F[feature/*]
-  D --> B[bugfix/*]
-  F --> PR[Pull Request]
-  B --> PR
-  PR --> CI[GitHub Actions]
-  CI --> D
-  D --> M
-```
+    Push / Pull Request
+           |
+           +----> Frontend install -> lint -> build
+           |
+           +----> Backend install -> Node syntax checks
+           |
+           v
+        CI result
 
-## CI Pipeline
+GitHub Actions is configured for main and develop pushes and pull requests.
 
-```mermaid
-flowchart LR
-  P[Push / PR] --> F[Frontend npm ci]
-  F --> L[Lint]
-  L --> B[Build]
-  P --> BE[Backend npm ci]
-  BE --> C[Node syntax checks]
-  B --> OK[Checks pass]
-  C --> OK
-```
+## Git workflow
 
-## Security Notes
+    main
+      |
+    develop
+      |
+    feature/* or bugfix/*
+      |
+    Pull Request
+      |
+    CI
+      |
+    develop
+      |
+    main
 
-The current application is a hackathon/demo baseline. Before production deployment, move users and opportunity data to persistent storage, rotate secrets, remove demo credentials, validate inputs, add rate limiting, and harden authentication and authorization.
+## Hackathon readiness
 
-## Roadmap
+The repository now includes a tracked implementation plan in HACKATHON_READINESS.md.
 
-- Persistent database and migrations
-- Production authentication and RBAC
-- Verified live opportunity integrations
-- Resume PDF parsing
-- Advanced employability analytics
-- Notifications and application tracking
-- Deployment infrastructure and observability
+### P0 — submission blockers
+
+- Real screenshots of the working product
+- 2–3 minute demo recording
+- Green CI
+- No committed secrets
+- Clear README and demo path
+- Honest AI and limitation documentation
+
+### P1 — high impact
+
+- Regenerated backend lockfile
+- GitHub repository description/topics
+- Stable public deployment, if available
+- End-to-end smoke tests
+- Final architecture visual
+
+### P2 — polish
+
+- Demo GIF/video link
+- Measured impact metrics
+- Additional architecture visual
+- Security/dependency scanning
+
+### P3 — avoid unnecessary complexity
+
+Do not add Kafka, Redis, Kubernetes, blockchain, microservices or extra AI providers unless a real product requirement appears. The product story is stronger when the architecture stays focused.
+
+## Screenshots
+
+See docs/screenshots/README.md for the exact P0/P1 screenshot checklist.
+
+## Limitations
+
+This is a hackathon-ready prototype. Important limitations include JSON-backed persistence, one verified opportunity source, AI variability, text-oriented PDF parsing and prototype-scale rate limiting.
+
+Full details are in LIMITATIONS.md.
 
 ## Contributing
 
-See `CONTRIBUTING.md` for branch, commit, issue, and pull-request conventions.
+See CONTRIBUTING.md for branch, commit, issue and pull-request conventions.
 
 ## License
 
-See `LICENSE`.
+See LICENSE.
