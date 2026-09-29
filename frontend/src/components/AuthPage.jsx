@@ -3,7 +3,7 @@ import { loginUser, registerUser } from '../services/auth';
 
 export default function AuthPage({ onAuthSuccess }) {
   const [register, setRegister] = useState(false);
-  const [form, setForm] = useState({ name:'', email:'rohan@campus.edu', password:'password123', targetRole:'Software Engineer (Backend)', degree:'B.Tech in Computer Science & Engineering', cgpa:'8.4 / 10' });
+  const [form, setForm] = useState({ name:'', email:'', password:'', targetRole:'Software Engineer (Backend)', degree:'B.Tech in Computer Science & Engineering', cgpa:'8.4 / 10' });
   const [error, setError] = useState('');
   const submit = async (event) => {
     event.preventDefault();
@@ -21,6 +21,6 @@ export default function AuthPage({ onAuthSuccess }) {
     {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
     <button className="w-full rounded-lg bg-indigo-600 p-3 font-semibold text-white">{register ? 'Create account' : 'Sign in'}</button>
     <button type="button" onClick={()=>setRegister(!register)} className="w-full text-sm text-indigo-600">{register ? 'Already have an account? Sign in' : 'Create a new account'}</button>
-    {!register && <p className="text-xs text-slate-500 text-center">Demo: rohan@campus.edu / password123 • Admin: admin@college.edu / admin123</p>}
+    {!register && <p className="text-xs text-slate-500 text-center">For local demo accounts, use the credentials configured in backend .env</p>}
   </form></div>;
 }
