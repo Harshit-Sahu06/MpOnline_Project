@@ -71,7 +71,7 @@ The recommended judge flow is documented in docs/demo/demo-script.md:
     Express API ---> National Career Service
     Express API ---> React UI
 
-Detailed diagrams and security boundaries are in docs/architecture.md.
+![C2C architecture](docs/architecture.svg)\n\nDetailed diagrams and security boundaries are in docs/architecture.md.
 
 ## AI and security
 
@@ -102,6 +102,37 @@ C2C exposes source/freshness information and returns an empty result with source
 - **Resume processing:** pdf-parse
 - **Persistence:** JSON-backed repository for the hackathon prototype
 - **Quality:** GitHub Actions, Oxlint
+
+## Illustrative student journey
+
+**Example only — not a measured result.**
+
+A final-year student targeting backend software roles could provide Java, C++, SQL, DSA and REST API experience. C2C can use that context to surface missing areas, turn them into an action plan, improve the resume, generate interview practice and then connect the student with available opportunities.
+
+The important product idea is the **closed loop**: recommendations are connected to preparation and opportunities rather than ending at a single AI answer.
+
+## Technology decisions
+
+| Decision | Why it fits this prototype |
+|---|---|
+| React + Vite | Fast, component-based UI development and simple local setup |
+| Express | Small, understandable REST API boundary |
+| JSON repository | Persistent single-instance demo data without unnecessary infrastructure |
+| Gemini | Natural-language analysis and personalized employability feedback |
+| PDF parser | Turns a real resume upload into structured text for review |
+| NCS source | Gives opportunity data a traceable official source |
+| GitHub Actions | Automates lint, build and backend syntax validation |
+
+## Impact measurement plan
+
+No impact numbers are invented in this repository. For a future pilot, measure:
+
+- time from first login to a completed action plan;
+- percentage of students completing resume review;
+- percentage completing at least one interview practice session;
+- number of skill-gap actions completed;
+- opportunity click-through rate;
+- student-reported usefulness of recommendations.
 
 ## Project structure
 
