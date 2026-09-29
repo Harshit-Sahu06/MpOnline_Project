@@ -258,7 +258,7 @@ The repository now includes a tracked implementation plan in HACKATHON_READINESS
 
 ### P1 — high impact
 
-- Regenerated backend lockfile
+- Current frontend and backend lockfiles
 - GitHub repository description/topics
 - Stable public deployment, if available
 - End-to-end smoke tests
