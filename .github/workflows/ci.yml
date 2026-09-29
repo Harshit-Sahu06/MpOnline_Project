@@ -35,8 +35,4 @@ jobs:
           node-version: 20
       - run: npm install --no-audit --no-fund
       - run: |
-          node --check server.js
-          node --check routes/authRoutes.js
-          node --check routes/aiRoutes.js
-          node --check routes/jobRoutes.js
-          node --check middleware/authMiddleware.js
+          find . -path './node_modules' -prune -o -name '*.js' -print0 | xargs -0 -n1 node --check
