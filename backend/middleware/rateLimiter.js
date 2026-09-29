@@ -1,0 +1,2 @@
+const buckets=new Map();
+export function rateLimit({windowMs=15*60*1000,max=60}={}){return(req,res,next)=>{const now=Date.now();const key=`${req.ip}:${req.path}`;const current=buckets.get(key);if(!current||now-current.startedAt>windowMs){buckets.set(key,{startedAt:now,count:1});return next();}current.count+=1;if(current.count>max)return res.status(429).json({success:false,error:'Too many requests. Please try again later.'});return next();};}
