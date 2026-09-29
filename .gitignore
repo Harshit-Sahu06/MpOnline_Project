@@ -25,3 +25,6 @@ dist-ssr
 coverage/
 *.tmp
 *.cache
+# Runtime database
+backend/data/database.json
+backend/data/database.json.tmp
