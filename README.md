@@ -71,7 +71,125 @@ The recommended judge flow is documented in docs/demo/demo-script.md:
     Express API ---> National Career Service
     Express API ---> React UI
 
-![C2C architecture](docs/architecture.svg)\n\nDetailed diagrams and security boundaries are in docs/architecture.md.
+![C2C architecture](docs/architecture.svg)
+
+Detailed diagrams and security boundaries are in docs/architecture.md.
+
+## Product flowcharts
+
+### 1. End-to-end employability workflow
+
+```mermaid
+flowchart TD
+    S[Student Registers / Signs In] --> P[Complete Profile & Career Goals]
+    P --> A[AI Profile Analysis]
+    A --> G[Skill Gaps & Readiness]
+    G --> R[Personalized Action Plan]
+    R --> RES[Resume Improvement]
+    R --> INT[Mock Interview]
+    RES --> O[Relevant Opportunities]
+    INT --> O
+    G --> C[Course / Project Recommendations]
+    C --> O
+    O --> ACT[Apply / Take Career Action]
+    ACT --> T[Track Progress & Re-assess]
+    T --> A
+```
+
+### 2. Authentication and session flow
+
+```mermaid
+sequenceDiagram
+    participant U as Student
+    participant F as React Frontend
+    participant API as Express API
+    participant DB as Persistent Store
+
+    U->>F: Register / Login
+    F->>API: Credentials
+    API->>DB: Find or create user
+    API-->>F: HttpOnly session cookie + safe user data
+    F->>API: Verify session
+    API->>API: Validate JWT issuer + audience
+    API-->>F: Authenticated profile
+    U->>F: Update profile
+    F->>API: PATCH /auth/profile
+    API->>DB: Persist profile changes
+    API-->>F: Updated safe profile
+```
+
+### 3. AI assessment and skill-gap data flow
+
+```mermaid
+flowchart LR
+    P[Student Profile] --> D[Profile + Skills + Goals]
+    D --> API[Express AI Endpoint]
+    API --> G[Gemini]
+    G --> J[Structured Analysis]
+    J --> S[Strengths]
+    J --> GAPS[Skill Gaps]
+    J --> SCORE[Readiness Score]
+    J --> ROAD[Personalized Roadmap]
+    API --> F[Deterministic Fallback]
+    F --> J
+    S --> UI[Skill Gap Dashboard]
+    GAPS --> UI
+    SCORE --> UI
+    ROAD --> UI
+```
+
+### 4. Resume parsing and AI review pipeline
+
+```mermaid
+flowchart TD
+    U[Upload Resume PDF] --> V{PDF + Size Valid?}
+    V -- No --> E[Show Validation Error]
+    V -- Yes --> P[PDF Text Parser]
+    P --> X[Extract Resume Text]
+    X --> DB[Persist Resume Text]
+    X --> AI[Resume Review API]
+    AI --> G[Gemini Analysis]
+    G --> ATS[ATS Score]
+    G --> KEY[Missing Keywords]
+    G --> IMP[Suggested Improvements]
+    ATS --> UI[Resume Enhancer]
+    KEY --> UI
+    IMP --> UI
+```
+
+### 5. Verified opportunity sourcing flow
+
+```mermaid
+flowchart LR
+    UI[Opportunities Screen] --> API[Express Opportunities API]
+    API --> CACHE{Fresh Cache?}
+    CACHE -- Yes --> DATA[Cached NCS Data]
+    CACHE -- No --> NCS[National Career Service]
+    NCS --> PARSE[Parse Official Listings]
+    PARSE --> META[Source + Verification + Fetch Time]
+    META --> API
+    API --> UI
+    NCS -. Failure .-> ERR[Source Error Metadata]
+    ERR --> EMPTY[Empty State]
+    EMPTY --> UI
+```
+
+### 6. Admin analytics and intervention loop
+
+```mermaid
+flowchart TD
+    AD[Admin Dashboard] --> LP[Monitor Learner Progress]
+    AD --> ST[Review Skill Trends]
+    AD --> OP[Review Opportunity Activity]
+    LP --> GAP[Identify Common Skill Gaps]
+    ST --> GAP
+    GAP --> TR[Plan Training / Course Interventions]
+    TR --> C[Course & Project Recommendations]
+    C --> LP
+    OP --> INS[Placement / Opportunity Insights]
+    INS --> TR
+```
+
 
 ## AI and security
 
