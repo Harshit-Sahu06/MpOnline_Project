@@ -35,7 +35,7 @@ This document tracks the recommendations for making the repository easy for judg
 | Repository topics/description | Pending | Add concise description and relevant topics in GitHub repository settings |
 | Live deployment | Pending | Add a public demo URL only if a stable deployment is available |
 | Feature screenshots | Pending | Add the P0/P1 screenshots |
-| End-to-end test path | Partial | Add smoke tests for auth, AI fallback, resume parsing and opportunities |
+| End-to-end test path | Partial | Add smoke tests for auth, AI fallback, resume parsing and opportunities |\n| Security/dependency hygiene | Implemented | SECURITY.md and Dependabot configuration added |
 
 ## P2 — Polish
 
@@ -45,7 +45,7 @@ This document tracks the recommendations for making the repository easy for judg
 - Add measurable impact metrics when real measurements are available.
 - Add a sample student journey with clearly labeled illustrative data.
 - Add issue labels/milestones for future engineering work.
-- Add dependency/security scanning.
+- Add dependency/security scanning. (Dependabot configuration is now included; CI/security scanning can be expanded further.)
 
 ## P3 — Do not overbuild
 
