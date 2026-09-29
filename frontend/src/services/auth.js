@@ -1,11 +1,10 @@
 const API_BASE=import.meta.env.VITE_API_BASE_URL||'http://localhost:5000/api';
-const saveSession=(user,token)=>{localStorage.setItem('c2c_user',JSON.stringify(user));localStorage.setItem('c2c_token',token)};
-export const registerUser=async(name,email,password,targetRole,degree,cgpa)=>{
- try{const r=await fetch(API_BASE+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password,targetRole,degree,cgpa})});const d=await r.json();if(d.success)saveSession(d.user,d.token);return d}catch(error){return{success:false,error:'Backend unavailable. Start the backend server first.'}}
-};
-export const loginUser=async(email,password)=>{
- try{const r=await fetch(API_BASE+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});const d=await r.json();if(d.success)saveSession(d.user,d.token);return d}catch(error){return{success:false,error:'Backend unavailable. Start the backend server first.'}}
-};
-export const logoutSession=()=>{localStorage.removeItem('c2c_user');localStorage.removeItem('c2c_token')};
-export const getStoredSession=()=>{try{return{user:JSON.parse(localStorage.getItem('c2c_user')||'null'),token:localStorage.getItem('c2c_token')}}catch{return{user:null,token:null}}};
-export const verifySession=async()=>{const {token}=getStoredSession();if(!token)return{success:false};try{const r=await fetch(API_BASE+'/auth/verify',{headers:{Authorization:`Bearer ${token}`}});return await r.json()}catch{return{success:false}}};
+const USER_KEY='c2c_user';
+const request=(path,options={})=>fetch(API_BASE+path,{...options,credentials:'include',headers:{'Content-Type':'application/json',...(options.headers||{})}});
+const saveUser=user=>sessionStorage.setItem(USER_KEY,JSON.stringify(user));
+export const registerUser=async(name,email,password,targetRole,degree,cgpa)=>{try{const r=await request('/auth/register',{method:'POST',body:JSON.stringify({name,email,password,targetRole,degree,cgpa})});const d=await r.json();if(d.success)saveUser(d.user);return d;}catch{return{success:false,error:'Backend unavailable. Start the backend server first.'}}};
+export const loginUser=async(email,password)=>{try{const r=await request('/auth/login',{method:'POST',body:JSON.stringify({email,password})});const d=await r.json();if(d.success)saveUser(d.user);return d;}catch{return{success:false,error:'Backend unavailable. Start the backend server first.'}}};
+export const logoutSession=async()=>{try{await request('/auth/logout',{method:'POST'});}catch{}sessionStorage.removeItem(USER_KEY);};
+export const getStoredSession=()=>{try{return{user:JSON.parse(sessionStorage.getItem(USER_KEY)||'null'),token:null};}catch{return{user:null,token:null}}};
+export const verifySession=async()=>{try{const r=await request('/auth/verify');const d=await r.json();if(d.success)saveUser(d.user);else sessionStorage.removeItem(USER_KEY);return d;}catch{return{success:false}}};
+export const updateProfile=async profile=>{try{const r=await request('/auth/profile',{method:'PATCH',body:JSON.stringify(profile)});const d=await r.json();if(d.success)saveUser(d.user);return d;}catch{return{success:false,error:'Could not save profile.'}}};
