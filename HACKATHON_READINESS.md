@@ -31,7 +31,7 @@ This document tracks the recommendations for making the repository easy for judg
 | Architecture explanation | Implemented | See docs/architecture.md |
 | AI usage explanation | Implemented | See AI_USAGE.md |
 | Judge-friendly README | Implemented | Problem -> solution -> features -> demo -> architecture |
-| Dependency reproducibility | Partial | Frontend lockfile exists; backend lockfile must be regenerated for the current dependency set |
+| Dependency reproducibility | Pending | Add current frontend and backend lockfiles, then switch CI/local install guidance to npm ci |
 | Repository topics/description | Pending | Add concise description and relevant topics in GitHub repository settings |
 | Live deployment | Pending | Add a public demo URL only if a stable deployment is available |
 | Feature screenshots | Pending | Add the P0/P1 screenshots |
